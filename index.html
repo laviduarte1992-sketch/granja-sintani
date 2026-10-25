@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Granja Sintani, SARL - Qualidade Local, Futuro Sustentável</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-green: #0a5c36;
+      --accent-gold: #e5a93c;
+    }
+    .bg-brand-green { background-color: var(--primary-green); }
+    .text-brand-green { color: var(--primary-green); }
+    .border-brand-green { border-color: var(--primary-green); }
+    .bg-brand-gold { background-color: var(--accent-gold); }
+    .text-brand-gold { color: var(--accent-gold); }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
+
+  <!-- Header / Navegação -->
+  <header class="sticky top-0 z-50 bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-emerald-800 flex items-center justify-center text-white font-bold text-xl border-2 border-amber-400">
+          GS
+        </div>
+        <div>
+          <h1 class="text-xl font-black text-emerald-900 leading-tight">GRANJA SINTANI <span class="text-xs bg-amber-400 text-emerald-950 px-1.5 py-0.5 rounded font-bold">SARL</span></h1>
+          <p class="text-xs text-gray-500 font-medium">Qualidade Local, Futuro Sustentável</p>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex gap-6 font-semibold text-sm text-gray-700">
+        <a href="#inicio" class="hover:text-emerald-700 transition">1. Início</a>
+        <a href="#produtos" class="hover:text-emerald-700 transition">2. Produtos</a>
+        <a href="#sobre" class="hover:text-emerald-700 transition">3. Sobre Nós</a>
+        <a href="#contactos" class="hover:text-emerald-700 transition">4. Contactos</a>
+      </nav>
+
+      <a href="https://wa.me/245955196668" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2 shadow transition">
+        <i class="fab font-bold fa-whatsapp text-lg"></i>
+        <span>Falar no WhatsApp</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- 1. INÍCIO -->
+  <section id="inicio" class="relative bg-emerald-900 text-white py-20 px-4">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="bg-amber-400 text-emerald-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-4 inline-block">Produção Avícola em Bissau</span>
+        <h2 class="text-4xl md:text-5xl font-black mb-4 leading-tight">Qualidade, Frescura e Confiança para a sua Mesa</h2>
+        <p class="text-emerald-100 text-lg mb-8">Fornecemos frangos de corte, pintos do dia e ovos de alta qualidade diretamente das nossas instalações em Bissaquel para retalhistas, restaurantes e famílias.</p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#produtos" class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold px-6 py-3 rounded-xl shadow-lg transition">Ver Tabela de Preços</a>
+          <a href="https://wa.me/245955196668" target="_blank" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-xl border border-white/30 transition flex items-center gap-2">
+            <i class="fab fa-whatsapp"></i> +245 955 196 668
+          </a>
+        </div>
+      </div>
+      <div class="relative">
+        <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80" alt="Galinhas em Granja Avícola" class="rounded-2xl shadow-2xl border-4 border-amber-400 object-cover h-96 w-full">
+        <div class="absolute -bottom-6 -left-6 bg-white text-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 hidden sm:block">
+          <p class="text-xs text-gray-500 font-bold uppercase">Localização Oficial</p>
+          <p class="font-black text-emerald-900">Bissaquel, Bissau, Guiné-Bissau</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. PRODUTOS -->
+  <section id="produtos" class="py-16 px-4 max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-black text-emerald-900">2. Produtos e Preços por Encomenda</h2>
+      <p class="text-gray-600">Valores atualizados em Franco CFA (XOF) com fornecimento para retalho e grossistas em Bissau.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Produto 1 -->
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
+        <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80" alt="Frango de Corte Vivo" class="h-48 w-full object-cover">
+        <div class="p-6">
+          <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Em Stock</span>
+          <h3 class="text-xl font-bold text-gray-900 mt-2">Frango de Corte (Vivo)</h3>
+          <p class="text-gray-500 text-sm mt-1">Aves saudáveis, criadas com ração de qualidade e acompanhamento veterinário constante.</p>
+          <div class="mt-4 flex justify-between items-baseline">
+            <span class="text-2xl font-black text-emerald-900">2.500 XOF</span>
+            <span class="text-xs text-gray-500">por Unidade</span>
+          </div>
+          <a href="https://wa.me/245955196668?text=Olá,%20gostaria%20de%20encomendar%20Frangos%20de%20Corte" target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl block text-center transition">Encomendar via WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- Produto 2 -->
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
+        <img src="https://images.unsplash.com/photo-1582721478779-0ae163c05a60?auto=format&fit=crop&w=600&q=80" alt="Caixa de Ovos Frescos" class="h-48 w-full object-cover">
+        <div class="p-6">
+          <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Em Stock</span>
+          <h3 class="text-xl font-bold text-gray-900 mt-2">Caixa de Ovos Frescos</h3>
+          <p class="text-gray-500 text-sm mt-1">Alvéolo com 30 ovos frescos de galinhas poedeiras criadas com excelente nutrição.</p>
+          <div class="mt-4 flex justify-between items-baseline">
+            <span class="text-2xl font-black text-emerald-900">2.800 XOF</span>
+            <span class="text-xs text-gray-500">Alvéolo (30 un)</span>
+          </div>
+          <a href="https://wa.me/245955196668?text=Olá,%20gostaria%20de%20encomendar%20Caixas%20de%20Ovos" target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl block text-center transition">Encomendar via WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- Produto 3 -->
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
+        <img src="https://images.unsplash.com/photo-1563281577-a7be47e20db9?auto=format&fit=crop&w=600&q=80" alt="Pintos de 1 Dia" class="h-48 w-full object-cover">
+        <div class="p-6">
+          <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-1 rounded">Por Encomenda</span>
+          <h3 class="text-xl font-bold text-gray-900 mt-2">Pintos de 1 Dia (Lote)</h3>
+          <p class="text-gray-500 text-sm mt-1">Pintos vacinados e com alta taxa de sobrevivência para produtores avícolas.</p>
+          <div class="mt-4 flex justify-between items-baseline">
+            <span class="text-2xl font-black text-emerald-900">35.000 XOF</span>
+            <span class="text-xs text-gray-500">Lote de 50 pintos</span>
+          </div>
+          <a href="https://wa.me/245955196668?text=Olá,%20gostaria%20de%20encomendar%20Pintos%20de%201%20Dia" target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl block text-center transition">Encomendar via WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SOBRE NÓS -->
+  <section id="sobre" class="bg-emerald-50 py-16 px-4">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-3xl font-black text-emerald-900 mb-4">3. Sobre a Granja Sintani, SAR
