@@ -11,11 +11,6 @@
       --primary-green: #0a5c36;
       --accent-gold: #e5a93c;
     }
-    .bg-brand-green { background-color: var(--primary-green); }
-    .text-brand-green { color: var(--primary-green); }
-    .border-brand-green { border-color: var(--primary-green); }
-    .bg-brand-gold { background-color: var(--accent-gold); }
-    .text-brand-gold { color: var(--accent-gold); }
   </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 antialiased">
@@ -24,8 +19,8 @@
   <header class="sticky top-0 z-50 bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <!-- Logótipo Oficial da Granja Sintani -->
-        <img src="https://i.ibb.co/Lh2S23z/granja-sintani-logo.jpg" alt="Granja Sintani, SARL Logo" class="h-16 w-auto object-contain rounded-lg border border-emerald-100 shadow-sm" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=200&q=80'">
+        <!-- Logótipo Local -->
+        <img src="logo.jpg" alt="Granja Sintani, SARL Logo" class="h-14 w-auto object-contain rounded-lg border border-emerald-100 shadow-sm">
         <div>
           <h1 class="text-xl font-black text-emerald-900 leading-tight">GRANJA SINTANI <span class="text-xs bg-amber-400 text-emerald-950 px-1.5 py-0.5 rounded font-bold">SARL</span></h1>
           <p class="text-xs text-emerald-700 font-semibold">Qualidade Local, Futuro Sustentável</p>
@@ -61,9 +56,9 @@
         </div>
       </div>
       <div class="relative flex justify-center">
-        <!-- Banner/Logo Em Destaque -->
+        <!-- Logótipo em Destaque -->
         <div class="bg-white p-3 rounded-2xl shadow-2xl border-4 border-amber-400">
-          <img src="https://i.ibb.co/Lh2S23z/granja-sintani-logo.jpg" alt="Granja Sintani, SARL Emblema" class="rounded-xl max-h-96 w-auto object-contain" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80'">
+          <img src="logo.jpg" alt="Granja Sintani, SARL Emblema" class="rounded-xl max-h-96 w-auto object-contain">
         </div>
         <div class="absolute -bottom-6 -left-2 bg-white text-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 hidden sm:block">
           <p class="text-xs text-gray-500 font-bold uppercase">Localização Oficial</p>
@@ -81,7 +76,6 @@
     </div>
 
     <div class="grid md:grid-cols-3 gap-8">
-      <!-- Produto 1 -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
         <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80" alt="Frango de Corte Vivo" class="h-48 w-full object-cover">
         <div class="p-6">
@@ -96,7 +90,6 @@
         </div>
       </div>
 
-      <!-- Produto 2 -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
         <img src="https://images.unsplash.com/photo-1582721478779-0ae163c05a60?auto=format&fit=crop&w=600&q=80" alt="Caixa de Ovos Frescos" class="h-48 w-full object-cover">
         <div class="p-6">
@@ -111,7 +104,6 @@
         </div>
       </div>
 
-      <!-- Produto 3 -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
         <img src="https://images.unsplash.com/photo-1563281577-a7be47e20db9?auto=format&fit=crop&w=600&q=80" alt="Pintos de 1 Dia" class="h-48 w-full object-cover">
         <div class="p-6">
@@ -122,4 +114,91 @@
             <span class="text-2xl font-black text-emerald-900">35.000 XOF</span>
             <span class="text-xs text-gray-500">Lote de 50 pintos</span>
           </div>
-          <a href="https://wa.me/245955196668?text=Olá,%20gostaria%20de%20encomendar%20Pintos%20de%201%20Dia" target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-
+          <a href="https://wa.me/245955196668?text=Olá,%20gostaria%20de%20encomendar%20Pintos%20de%201%20Dia" target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl block text-center transition">Encomendar via WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SOBRE NÓS -->
+  <section id="sobre" class="bg-emerald-50 py-16 px-4">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-3xl font-black text-emerald-900 mb-4">3. Sobre a Granja Sintani, SARL</h2>
+        <p class="text-gray-700 mb-4 leading-relaxed">A <strong>GRANJA SINTANI, SARL</strong> nasce do compromisso de fortalecer a segurança alimentar e o desenvolvimento agropecuário na Guiné-Bissau. Localizada estrategicamente na zona de Bissaquel, a nossa granja combina técnicas modernas de maneio com um controlo rigoroso de biossegurança.</p>
+        
+        <div class="space-y-3 mt-6">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-check-circle text-emerald-600 text-xl mt-1"></i>
+            <p class="text-sm text-gray-700"><strong>Processo de Criação Controlado:</strong> Acompanhamento nutricional rigoroso para garantir frangos e ovos saudáveis.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="fas fa-shield-alt text-emerald-600 text-xl mt-1"></i>
+            <p class="text-sm text-gray-700"><strong>Saúde Animal e Bem-Estar:</strong> Instalações limpas, arejadas e com rigoroso protocolo sanitário.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=800&q=80" alt="Instalações do Aviário em Bissaquel" class="rounded-2xl shadow-lg border-2 border-emerald-200 object-cover h-96 w-full">
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. CONTACTOS -->
+  <section id="contactos" class="py-16 px-4 max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-black text-emerald-900">4. Contactos e Encomendas</h2>
+      <p class="text-gray-600">Entre em contacto direto connosco para pedidos, orçamentos ou parcerias comerciais.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
+      <div class="bg-emerald-900 text-white p-8 rounded-2xl shadow-xl space-y-6">
+        <h3 class="text-2xl font-bold text-amber-400">Informações Oficiais</h3>
+        <div class="flex items-start gap-4">
+          <div class="bg-emerald-800 p-3 rounded-lg text-amber-400"><i class="fas fa-map-marker-alt text-xl"></i></div>
+          <div>
+            <h4 class="font-bold text-emerald-200">Localização</h4>
+            <p class="text-emerald-50">Bissau, Zona de Bissaquel, Guiné-Bissau</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="bg-emerald-800 p-3 rounded-lg text-amber-400"><i class="fab fa-whatsapp text-xl"></i></div>
+          <div>
+            <h4 class="font-bold text-emerald-200">Telefone / WhatsApp</h4>
+            <p class="text-emerald-50">+245 955 196 668</p>
+          </div>
+        </div>
+        <a href="https://wa.me/245955196668" target="_blank" class="block w-full bg-amber-400 hover:bg-amber-500 text-emerald-950 font-black py-3 text-center rounded-xl transition mt-8">
+          <i class="fab fa-whatsapp text-lg mr-2"></i> Enviar Mensagem Direta
+        </a>
+      </div>
+
+      <form class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 space-y-4">
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Formulário de Mensagem</h3>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Nome Completo</label>
+          <input type="text" placeholder="Ex: João Silva" class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Telefone / WhatsApp</label>
+          <input type="tel" placeholder="Ex: +245 955..." class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Mensagem ou Quantidade</label>
+          <textarea rows="4" placeholder="Escreva aqui a quantidade que pretende encomendar..." class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none"></textarea>
+        </div>
+        <button type="button" onclick="alert('Obrigado pelo contacto!')" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 rounded-xl transition">
+          Enviar Pedido
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="bg-emerald-950 text-emerald-400 py-8 text-center text-sm border-t border-emerald-900">
+    <p>© 2026 GRANJA SINTANI, SARL - Todos os direitos reservados.</p>
+    <p class="text-xs text-emerald-600 mt-1">Bissaquel, Bissau, Guiné-Bissau | sintanisarl.com</p>
+  </footer>
+
+</body>
+</html>
