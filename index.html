@@ -114,10 +114,10 @@
         </div>
       </div>
 
-      <!-- Produto 2: Galinhas Vivos (Imagem exata de galinhas brancas em granja) -->
+      <!-- Produto 2: Galinhas Vivos (Link Permanente Wikimedia Commons - Galinhas Brancas) -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
         <div>
-          <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=600&q=80" alt="Galinhas Vivos" class="h-48 w-full object-cover">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Broilers.jpg/800px-Broilers.jpg" alt="Galinhas Vivos" class="h-48 w-full object-cover">
           <div class="p-6">
             <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Em Stock</span>
             <h3 class="text-xl font-bold text-gray-900 mt-2">Galinhas Vivos</h3>
@@ -172,10 +172,10 @@
         </div>
       </div>
 
-      <!-- Produto 4: Asas e Frangos Congelados (Imagem exata de frango inteiro/congelado) -->
+      <!-- Produto 4: Asas e Frangos Congelados (Link Permanente Wikimedia Commons - Frango Inteiro Cru) -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
         <div>
-          <img src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=600&q=80" alt="Asas e Frangos Congelados" class="h-48 w-full object-cover">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Whole_raw_chicken.jpg/800px-Whole_raw_chicken.jpg" alt="Asas e Frangos Congelados" class="h-48 w-full object-cover">
           <div class="p-6">
             <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Congelados</span>
             <h3 class="text-xl font-bold text-gray-900 mt-2">Asas e Frangos Congelados</h3>
@@ -400,4 +400,80 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-gray-700 mb-
+          <label class="block text-xs font-bold text-gray-700 mb-1">Endereço de Entrega (Bissau / Bissaquel) *</label>
+          <input type="text" id="cust-address" required placeholder="Ex: Bairro de Penha, Bissau" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Método de Pagamento Preferido *</label>
+          <select id="cust-payment" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 outline-none bg-white">
+            <option value="Mobile Money (Orange/Telecel)">Mobile Money (Orange Money / Telecel Money - +245 955 196 668)</option>
+            <option value="Transferência Bancária">Transferência Bancária (Solicitar NIB/IBAN)</option>
+            <option value="Pagamento no Ato da Entrega">Pagamento no Ato da Entrega (Dinheiro Vivo)</option>
+          </select>
+        </div>
+
+        <!-- Botão Principal do WhatsApp -->
+        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base mt-4">
+          <i class="fab fa-whatsapp text-xl"></i>
+          <span>Confirmar e Enviar Pedido no WhatsApp</span>
+        </button>
+
+        <!-- Botão Secundário para Gerir / Ver Carrinho em baixo -->
+        <button type="button" onclick="closeCartModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-sm">
+          <i class="fas fa-shopping-basket text-emerald-700"></i>
+          <span>📦 Ver / Ajustar Itens do Carrinho</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="bg-emerald-950 text-emerald-400 py-8 text-center text-sm border-t border-emerald-900">
+    <p>© 2026 GRANJA SINTANI, SARL - Todos os direitos reservados.</p>
+    <p class="text-xs text-emerald-500 mt-1">Bissaquel, Bissau, Guiné-Bissau | sintanisarl.com</p>
+    <p class="text-xs text-amber-400 font-semibold mt-2">Powered by Engenheiro Lavi Duarte Indeque</p>
+  </footer>
+
+  <!-- SCRIPT DO CARRINHO E CHECKOUT INTERATIVO -->
+  <script>
+    let cart = {};
+    let cardQuantities = { 1: 1, 2: 1, 3: 1, 4: 1 };
+
+    function cardQtyChange(id, delta) {
+      if (!cardQuantities[id]) cardQuantities[id] = 1;
+      cardQuantities[id] = Math.max(1, cardQuantities[id] + delta);
+      document.getElementById(`card-qty-${id}`).innerText = cardQuantities[id];
+    }
+
+    function addToCart(id, name, price) {
+      const qtyToAdd = cardQuantities[id] || 1;
+      if (!cart[id]) {
+        cart[id] = { name: name, price: price, qty: qtyToAdd };
+      } else {
+        cart[id].qty += qtyToAdd;
+      }
+      
+      cardQuantities[id] = 1;
+      document.getElementById(`card-qty-${id}`).innerText = 1;
+
+      updateCartUI();
+      openCartModal();
+    }
+
+    function changeQty(id, delta) {
+      if (cart[id]) {
+        cart[id].qty += delta;
+        if (cart[id].qty <= 0) {
+          delete cart[id];
+        }
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const itemsContainer = document.getElementById('cart-items');
+      const badge = document.getElementById('cart-badge');
+      const barTotal = document.getElementById('bar-total');
+      const modalTotal = document.getElementById('modal-total');
+      const cartBar =
