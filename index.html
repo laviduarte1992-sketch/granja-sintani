@@ -114,10 +114,10 @@
         </div>
       </div>
 
-      <!-- Produto 2: Galinhas Vivos (Link Permanente Wikimedia Commons - Galinhas Brancas) -->
+      <!-- Produto 2: Galinhas Vivos -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Broilers.jpg/800px-Broilers.jpg" alt="Galinhas Vivos" class="h-48 w-full object-cover">
+          <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80" alt="Galinhas Vivos" class="h-48 w-full object-cover">
           <div class="p-6">
             <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Em Stock</span>
             <h3 class="text-xl font-bold text-gray-900 mt-2">Galinhas Vivos</h3>
@@ -146,7 +146,7 @@
       <!-- Produto 3: Galinhas de Campo -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
         <div>
-          <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80" alt="Galinhas de Campo" class="h-48 w-full object-cover">
+          <img src="https://images.unsplash.com/photo-1527153857715-3908f2ae5e61?auto=format&fit=crop&w=600&q=80" alt="Galinhas de Campo" class="h-48 w-full object-cover">
           <div class="p-6">
             <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-1 rounded">Tradicional</span>
             <h3 class="text-xl font-bold text-gray-900 mt-2">Galinhas de Campo</h3>
@@ -172,10 +172,10 @@
         </div>
       </div>
 
-      <!-- Produto 4: Asas e Frangos Congelados (Link Permanente Wikimedia Commons - Frango Inteiro Cru) -->
+      <!-- Produto 4: Asas e Frangos Congelados -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Whole_raw_chicken.jpg/800px-Whole_raw_chicken.jpg" alt="Asas e Frangos Congelados" class="h-48 w-full object-cover">
+          <img src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=600&q=80" alt="Asas e Frangos Congelados" class="h-48 w-full object-cover">
           <div class="p-6">
             <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Congelados</span>
             <h3 class="text-xl font-bold text-gray-900 mt-2">Asas e Frangos Congelados</h3>
@@ -476,4 +476,93 @@
       const badge = document.getElementById('cart-badge');
       const barTotal = document.getElementById('bar-total');
       const modalTotal = document.getElementById('modal-total');
-      const cartBar =
+      const cartBar = document.getElementById('cart-bar');
+
+      itemsContainer.innerHTML = '';
+      let total = 0;
+      let itemCount = 0;
+
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        itemsContainer.innerHTML = '<p class="text-center text-gray-500 py-4 text-sm">O seu carrinho está vazio. Adicione produtos na loja!</p>';
+        cartBar.classList.add('hidden');
+      } else {
+        cartBar.classList.remove('hidden');
+        keys.forEach(id => {
+          const item = cart[id];
+          const itemTotal = item.price * item.qty;
+          total += itemTotal;
+          itemCount += item.qty;
+
+          itemsContainer.innerHTML += `
+            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-xl border border-gray-100">
+              <div>
+                <h5 class="font-bold text-gray-800 text-sm">${item.name}</h5>
+                <p class="text-xs text-emerald-700 font-bold">${item.price.toLocaleString()} XOF x ${item.qty} = ${itemTotal.toLocaleString()} XOF</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="changeQty(${id}, -1)" class="w-7 h-7 bg-gray-200 text-gray-800 rounded-lg font-bold flex items-center justify-center hover:bg-gray-300">-</button>
+                <span class="font-bold text-sm w-4 text-center">${item.qty}</span>
+                <button onclick="changeQty(${id}, 1)" class="w-7 h-7 bg-emerald-600 text-white rounded-lg font-bold flex items-center justify-center hover:bg-emerald-700">+</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      badge.innerText = itemCount;
+      barTotal.innerText = `Total: ${total.toLocaleString()} XOF`;
+      modalTotal.innerText = `${total.toLocaleString()} XOF`;
+    }
+
+    function openCartModal() {
+      document.getElementById('cart-modal').classList.remove('hidden');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cart-modal').classList.add('hidden');
+    }
+
+    function processOrder(e) {
+      e.preventDefault();
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        alert('Por favor, adicione pelo menos um produto ao carrinho!');
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value;
+      const phone = document.getElementById('cust-phone').value;
+      const address = document.getElementById('cust-address').value;
+      const payment = document.getElementById('cust-payment').value;
+
+      let orderSummary = '';
+      let total = 0;
+
+      keys.forEach(id => {
+        const item = cart[id];
+        const sub = item.price * item.qty;
+        total += sub;
+        orderSummary += `* ${item.qty}x ${item.name} (${sub.toLocaleString()} XOF)\n`;
+      });
+
+      const textMessage = `NOVO PEDIDO ONLINE - GRANJA SINTANI, SARL\n\n` +
+                          `Cliente: ${name}\n` +
+                          `Contacto: ${phone}\n` +
+                          `Entrega: ${address}\n` +
+                          `Metodo de Pagamento: ${payment}\n\n` +
+                          `PRODUTOS ENCOMENDADOS:\n${orderSummary}\n` +
+                          `TOTAL A PAGAR: ${total.toLocaleString()} XOF\n\n` +
+                          `Olá! Fiz o meu pedido no site da Granja Sintani e gostaria de confirmar a encomenda e o pagamento.`;
+
+      const encodedMsg = encodeURIComponent(textMessage);
+      window.open(`https://wa.me/245955196668?text=${encodedMsg}`, '_blank');
+      
+      closeCartModal();
+      cart = {};
+      updateCartUI();
+    }
+  </script>
+
+</body>
+</html>
