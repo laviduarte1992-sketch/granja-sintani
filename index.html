@@ -30,6 +30,7 @@
       <nav class="hidden md:flex gap-6 font-semibold text-sm text-gray-700">
         <a href="#inicio" class="hover:text-emerald-700 transition">1. Início</a>
         <a href="#loja" class="hover:text-emerald-700 transition">2. Loja & Preços</a>
+        <a href="#painel-admin" class="hover:text-emerald-700 transition text-amber-700 font-bold">📊 Registo de Saídas</a>
         <a href="#pagamento" class="hover:text-emerald-700 transition">3. Pagamento</a>
         <a href="#sobre" class="hover:text-emerald-700 transition">4. Sobre Nós</a>
         <a href="#contactos" class="hover:text-emerald-700 transition">5. Contactos</a>
@@ -143,7 +144,7 @@
         </div>
       </div>
 
-      <!-- Produto 3: Galinhas de Campo (Imagem Local galinha-campo.jpeg) -->
+      <!-- Produto 3: Galinhas de Campo (galinha-campo.jpeg) -->
       <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
         <div>
           <img src="galinha-campo.jpeg" alt="Galinhas de Campo" class="h-48 w-full object-cover">
@@ -201,6 +202,56 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- PAINEL ADMINISTRATIVO: REGISTO DE SAÍDAS E VENDAS NA WEB -->
+  <section id="painel-admin" class="py-12 px-4 max-w-7xl mx-auto bg-amber-50/60 rounded-3xl border border-amber-200 my-8 shadow-sm">
+    <div class="flex flex-col md:flex-row items-center justify-between mb-8 border-b border-amber-200 pb-4">
+      <div>
+        <span class="bg-amber-400 text-emerald-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-2 inline-block">Área de Gestão Interna</span>
+        <h2 class="text-2xl font-black text-emerald-900">📊 Painel de Registo de Saídas & Vendas (Web)</h2>
+        <p class="text-gray-600 text-sm">Histórico automático de todos os pedidos efetuados no site da Granja Sintani.</p>
+      </div>
+      <div class="mt-4 md:mt-0 flex gap-3">
+        <button onclick="clearOrders()" class="bg-red-100 hover:bg-red-200 text-red-800 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1">
+          <i class="fas fa-trash-alt"></i> Limpar Histórico
+        </button>
+      </div>
+    </div>
+
+    <!-- Estatísticas rápidas -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
+        <p class="text-xs text-gray-500 font-bold uppercase">Total de Vendas Registadas</p>
+        <p class="text-2xl font-black text-emerald-900" id="admin-total-orders">0</p>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
+        <p class="text-xs text-gray-500 font-bold uppercase">Faturação Total Registada</p>
+        <p class="text-2xl font-black text-emerald-900" id="admin-total-revenue">0 XOF</p>
+      </div>
+    </div>
+
+    <!-- Tabela de Registos -->
+    <div class="bg-white rounded-2xl shadow-sm border border-amber-100 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr class="bg-emerald-900 text-white text-xs uppercase tracking-wider">
+              <th class="p-3 font-bold">Data / Hora</th>
+              <th class="p-3 font-bold">Cliente</th>
+              <th class="p-3 font-bold">Contacto</th>
+              <th class="p-3 font-bold">Endereço</th>
+              <th class="p-3 font-bold">Produtos (Saídas)</th>
+              <th class="p-3 font-bold">Pagamento</th>
+              <th class="p-3 font-bold text-right">Total (XOF)</th>
+            </tr>
+          </thead>
+          <tbody id="admin-orders-list" class="divide-y divide-gray-100">
+            <!-- Injetado via JavaScript -->
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -316,7 +367,7 @@
         </a>
       </div>
 
-      <!-- Formulário de Mensagem integrado com WhatsApp -->
+      <!-- Formulário de Mensagem -->
       <form class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 space-y-4" onsubmit="sendContactForm(event);">
         <h3 class="text-xl font-bold text-gray-900 mb-2">Formulário de Mensagem</h3>
         <div>
@@ -409,3 +460,245 @@
           <label class="block text-xs font-bold text-gray-700 mb-1">Método de Pagamento Preferido *</label>
           <select id="cust-payment" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 outline-none bg-white">
             <option value="Mobile Money (Orange/Telecel)">Mobile Money (Orange Money / Telecel Money - +245 955 196 668)</option>
+            <option value="Transferência Bancária">Transferência Bancária (Solicitar NIB/IBAN)</option>
+            <option value="Pagamento no Ato da Entrega">Pagamento no Ato da Entrega (Dinheiro Vivo)</option>
+          </select>
+        </div>
+
+        <!-- Botão Principal do WhatsApp -->
+        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base mt-4">
+          <i class="fab fa-whatsapp text-xl"></i>
+          <span>Confirmar e Enviar Pedido no WhatsApp</span>
+        </button>
+
+        <!-- Botão Secundário para Gerir / Ver Carrinho em baixo -->
+        <button type="button" onclick="closeCartModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-sm">
+          <i class="fas fa-shopping-basket text-emerald-700"></i>
+          <span>📦 Ver / Ajustar Itens do Carrinho</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="bg-emerald-950 text-emerald-400 py-8 text-center text-sm border-t border-emerald-900">
+    <p>© 2026 GRANJA SINTANI, SARL - Todos os direitos reservados.</p>
+    <p class="text-xs text-emerald-500 mt-1">Bissaquel, Bissau, Guiné-Bissau | sintanisarl.com</p>
+    <p class="text-xs text-amber-400 font-semibold mt-2">Powered by Engenheiro Lavi Duarte Indeque</p>
+  </footer>
+
+  <!-- SCRIPT DO CARRINHO, CHECKOUT E PAINEL DE REGISTO DE SAÍDAS -->
+  <script>
+    let cart = {};
+    let cardQuantities = { 1: 1, 2: 1, 3: 1, 4: 1 };
+
+    function cardQtyChange(id, delta) {
+      if (!cardQuantities[id]) cardQuantities[id] = 1;
+      cardQuantities[id] = Math.max(1, cardQuantities[id] + delta);
+      document.getElementById(`card-qty-${id}`).innerText = cardQuantities[id];
+    }
+
+    function addToCart(id, name, price) {
+      const qtyToAdd = cardQuantities[id] || 1;
+      if (!cart[id]) {
+        cart[id] = { name: name, price: price, qty: qtyToAdd };
+      } else {
+        cart[id].qty += qtyToAdd;
+      }
+      
+      cardQuantities[id] = 1;
+      document.getElementById(`card-qty-${id}`).innerText = 1;
+
+      updateCartUI();
+      openCartModal();
+    }
+
+    function changeQty(id, delta) {
+      if (cart[id]) {
+        cart[id].qty += delta;
+        if (cart[id].qty <= 0) {
+          delete cart[id];
+        }
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const itemsContainer = document.getElementById('cart-items');
+      const badge = document.getElementById('cart-badge');
+      const barTotal = document.getElementById('bar-total');
+      const modalTotal = document.getElementById('modal-total');
+      const cartBar = document.getElementById('cart-bar');
+
+      itemsContainer.innerHTML = '';
+      let total = 0;
+      let itemCount = 0;
+
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        itemsContainer.innerHTML = '<p class="text-center text-gray-500 py-4 text-sm">O seu carrinho está vazio. Adicione produtos na loja!</p>';
+        cartBar.classList.add('hidden');
+      } else {
+        cartBar.classList.remove('hidden');
+        keys.forEach(id => {
+          const item = cart[id];
+          const itemTotal = item.price * item.qty;
+          total += itemTotal;
+          itemCount += item.qty;
+
+          itemsContainer.innerHTML += `
+            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-xl border border-gray-100">
+              <div>
+                <h5 class="font-bold text-gray-800 text-sm">${item.name}</h5>
+                <p class="text-xs text-emerald-700 font-bold">${item.price.toLocaleString()} XOF x ${item.qty} = ${itemTotal.toLocaleString()} XOF</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="changeQty(${id}, -1)" class="w-7 h-7 bg-gray-200 text-gray-800 rounded-lg font-bold flex items-center justify-center hover:bg-gray-300">-</button>
+                <span class="font-bold text-sm w-4 text-center">${item.qty}</span>
+                <button onclick="changeQty(${id}, 1)" class="w-7 h-7 bg-emerald-600 text-white rounded-lg font-bold flex items-center justify-center hover:bg-emerald-700">+</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      badge.innerText = itemCount;
+      barTotal.innerText = `Total: ${total.toLocaleString()} XOF`;
+      modalTotal.innerText = `${total.toLocaleString()} XOF`;
+    }
+
+    function openCartModal() {
+      document.getElementById('cart-modal').classList.remove('hidden');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cart-modal').classList.add('hidden');
+    }
+
+    // Processamento do Pedido e Registo Automático no Painel Web
+    function processOrder(e) {
+      e.preventDefault();
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        alert('Por favor, adicione pelo menos um produto ao carrinho!');
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value;
+      const phone = document.getElementById('cust-phone').value;
+      const address = document.getElementById('cust-address').value;
+      const payment = document.getElementById('cust-payment').value;
+
+      let orderSummary = '';
+      let total = 0;
+      let itemsListStr = '';
+
+      keys.forEach(id => {
+        const item = cart[id];
+        const sub = item.price * item.qty;
+        total += sub;
+        orderSummary += `* ${item.qty}x ${item.name} (${sub.toLocaleString()} XOF)\n`;
+        itemsListStr += `${item.qty}x ${item.name}; `;
+      });
+
+      // 1. Guardar no Histórico Local do Painel Admin
+      const orderRecord = {
+        date: new Date().toLocaleString('pt-PT'),
+        name: name,
+        phone: phone,
+        address: address,
+        items: itemsListStr,
+        payment: payment,
+        total: total
+      };
+
+      let savedOrders = JSON.parse(localStorage.getItem('sintani_orders') || '[]');
+      savedOrders.unshift(orderRecord); // Adiciona ao topo
+      localStorage.setItem('sintani_orders', JSON.stringify(savedOrders));
+      loadAdminOrders();
+
+      // 2. Enviar para o WhatsApp
+      const textMessage = `NOVO PEDIDO ONLINE - GRANJA SINTANI, SARL\n\n` +
+                          `Cliente: ${name}\n` +
+                          `Contacto: ${phone}\n` +
+                          `Entrega: ${address}\n` +
+                          `Metodo de Pagamento: ${payment}\n\n` +
+                          `PRODUTOS ENCOMENDADOS:\n${orderSummary}\n` +
+                          `TOTAL A PAGAR: ${total.toLocaleString()} XOF\n\n` +
+                          `Olá! Fiz o meu pedido no site da Granja Sintani e gostaria de confirmar a encomenda e o pagamento.`;
+
+      const encodedMsg = encodeURIComponent(textMessage);
+      window.open(`https://wa.me/245955196668?text=${encodedMsg}`, '_blank');
+      
+      closeCartModal();
+      cart = {};
+      updateCartUI();
+      alert('Pedido registado com sucesso no painel web e enviado para o WhatsApp!');
+    }
+
+    // Carregar os registos no Painel Admin
+    function loadAdminOrders() {
+      const ordersList = document.getElementById('admin-orders-list');
+      const totalOrdersEl = document.getElementById('admin-total-orders');
+      const totalRevenueEl = document.getElementById('admin-total-revenue');
+      
+      let savedOrders = JSON.parse(localStorage.getItem('sintani_orders') || '[]');
+      ordersList.innerHTML = '';
+
+      let totalRevenue = 0;
+
+      if (savedOrders.length === 0) {
+        ordersList.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500">Ainda não existem registos de saídas no site.</td></tr>`;
+      } else {
+        savedOrders.forEach(ord => {
+          totalRevenue += ord.total;
+          ordersList.innerHTML += `
+            <tr class="hover:bg-amber-50/50 transition">
+              <td class="p-3 text-xs text-gray-600 font-mono">${ord.date}</td>
+              <td class="p-3 font-bold text-gray-900">${ord.name}</td>
+              <td class="p-3 text-gray-700">${ord.phone}</td>
+              <td class="p-3 text-gray-600 text-xs">${ord.address}</td>
+              <td class="p-3 text-emerald-900 font-medium text-xs">${ord.items}</td>
+              <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs font-bold">${ord.payment}</span></td>
+              <td class="p-3 text-right font-black text-emerald-950">${ord.total.toLocaleString()} XOF</td>
+            </tr>
+          `;
+        });
+      }
+
+      totalOrdersEl.innerText = savedOrders.length;
+      totalRevenueEl.innerText = `${totalRevenue.toLocaleString()} XOF`;
+    }
+
+    function clearOrders() {
+      if (confirm('Tem a certeza que deseja limpar todo o histórico de registos de saídas?')) {
+        localStorage.removeItem('sintani_orders');
+        loadAdminOrders();
+      }
+    }
+
+    // Enviar mensagem de contacto para o WhatsApp
+    function sendContactForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value;
+      const phone = document.getElementById('contact-phone').value;
+      const msg = document.getElementById('contact-msg').value;
+
+      const textMessage = `NOVA MENSAGEM DO SITE - GRANJA SINTANI, SARL\n\n` +
+                          `👤 Nome: ${name}\n` +
+                          `📞 Contacto: ${phone}\n` +
+                          `💬 Mensagem: ${msg}\n\n` +
+                          `Olá! Gostaria de obter mais informações através do site.`;
+
+      const encodedMsg = encodeURIComponent(textMessage);
+      window.open(`https://wa.me/245955196668?text=${encodedMsg}`, '_blank');
+    }
+
+    // Carregar os dados ao abrir a página
+    window.onload = function() {
+      loadAdminOrders();
+    };
+  </script>
+
+</body>
+</html>
