@@ -36,7 +36,7 @@
       </nav>
 
       <div class="flex items-center gap-3">
-        <button onclick="toggleCartModal()" class="relative bg-emerald-100 text-emerald-900 font-bold px-3 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-emerald-200 transition">
+        <button onclick="openCartModal()" class="relative bg-emerald-100 text-emerald-900 font-bold px-3 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-emerald-200 transition">
           <i class="fas fa-shopping-cart text-lg"></i>
           <span class="hidden sm:inline">Carrinho</span>
           <span id="cart-badge" class="bg-amber-500 text-emerald-950 text-xs px-2 py-0.5 rounded-full font-black">0</span>
@@ -259,4 +259,230 @@
         <h3 class="text-xl font-bold text-gray-900 mb-2">Formulário de Mensagem</h3>
         <div>
           <label class="block text-sm font-semibold text-gray-700 mb-1">Nome Completo</label>
-          <input type="text" required placeholder="Ex: João Silva" class="w-full px-4 py
+          <input type="text" required placeholder="Ex: João Silva" class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Telefone / WhatsApp</label>
+          <input type="tel" required placeholder="Ex: +245 955..." class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Mensagem ou Dúvida</label>
+          <textarea rows="4" required placeholder="Escreva aqui a sua mensagem..." class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 rounded-xl transition">
+          Enviar Mensagem
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- BARRA FLUTUANTE DE CARRINHO NO FUNDO DA PÁGINA -->
+  <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-emerald-950 text-white p-4 shadow-2xl border-t-2 border-amber-400 z-40 hidden">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="bg-amber-400 text-emerald-950 p-2.5 rounded-xl font-black">
+          <i class="fas fa-shopping-basket text-xl"></i>
+        </div>
+        <div>
+          <p class="text-xs text-emerald-300 font-bold uppercase">Seu Pedido Online</p>
+          <p class="text-lg font-black text-white" id="bar-total">Total: 0 XOF</p>
+        </div>
+      </div>
+      <button onclick="openCartModal()" class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-black px-6 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+        <span>Finalizar Encomenda / Checkout</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL DO CARRINHO & CHECKOUT ONLINE -->
+  <div id="cart-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-center items-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-emerald-100 p-6 relative">
+      <button onclick="closeCartModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold">
+        &times;
+      </button>
+
+      <div class="flex items-center gap-3 mb-6 border-b pb-4">
+        <div class="bg-emerald-100 p-3 rounded-xl text-emerald-800 text-xl font-bold">
+          <i class="fas fa-cash-register"></i>
+        </div>
+        <div>
+          <h3 class="text-2xl font-black text-emerald-900">Checkout & Finalização de Pedido</h3>
+          <p class="text-xs text-gray-500">GRANJA SINTANI, SARL - Bissaquel, Bissau</p>
+        </div>
+      </div>
+
+      <!-- LISTA DE ITENS DO CARRINHO -->
+      <div id="cart-items" class="space-y-3 mb-6">
+        <!-- Itens injetados via JavaScript -->
+      </div>
+
+      <!-- RESUMO TOTAL -->
+      <div class="bg-emerald-50 p-4 rounded-xl flex justify-between items-center mb-6 border border-emerald-200">
+        <span class="font-bold text-emerald-900">Total a Pagar:</span>
+        <span id="modal-total" class="text-2xl font-black text-emerald-950">0 XOF</span>
+      </div>
+
+      <!-- FORMULÁRIO DE CHECKOUT -->
+      <form id="checkout-form" onsubmit="processOrder(event)" class="space-y-4">
+        <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wider border-b pb-1">Dados de Entrega & Pagamento</h4>
+        
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Seu Nome Completo *</label>
+            <input type="text" id="cust-name" required placeholder="Ex: João Silva" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Telefone / WhatsApp *</label>
+            <input type="tel" id="cust-phone" required placeholder="Ex: +245 955..." class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Endereço de Entrega (Bissau / Bissaquel) *</label>
+          <input type="text" id="cust-address" required placeholder="Ex: Bairro de Penha, Bissau" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Método de Pagamento Preferido *</label>
+          <select id="cust-payment" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 outline-none bg-white">
+            <option value="Mobile Money (Orange/Telecel)">Mobile Money (Orange Money / Telecel Money - +245 955 196 668)</option>
+            <option value="Transferência Bancária">Transferência Bancária (Solicitar NIB/IBAN)</option>
+            <option value="Pagamento no Ato da Entrega">Pagamento no Ato da Entrega (Dinheiro Vivo)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base mt-4">
+          <i class="fab fa-whatsapp text-xl"></i>
+          <span>Confirmar e Enviar Pedido no WhatsApp</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="bg-emerald-950 text-emerald-400 py-8 text-center text-sm border-t border-emerald-900">
+    <p>© 2026 GRANJA SINTANI, SARL - Todos os direitos reservados.</p>
+    <p class="text-xs text-emerald-500 mt-1">Bissaquel, Bissau, Guiné-Bissau | sintanisarl.com</p>
+    <p class="text-xs text-amber-400 font-semibold mt-2">Powered by Engenheiro Lavi Duarte Indeque</p>
+  </footer>
+
+  <!-- SCRIPT DO CARRINHO E CHECKOUT INTERATIVO CORRIGIDO -->
+  <script>
+    let cart = {};
+
+    function addToCart(id, name, price) {
+      if (!cart[id]) {
+        cart[id] = { name: name, price: price, qty: 1 };
+      } else {
+        cart[id].qty += 1;
+      }
+      updateCartUI();
+      openCartModal(); // Abre a janela do carrinho imediatamente ao adicionar!
+    }
+
+    function changeQty(id, delta) {
+      if (cart[id]) {
+        cart[id].qty += delta;
+        if (cart[id].qty <= 0) {
+          delete cart[id];
+        }
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const itemsContainer = document.getElementById('cart-items');
+      const badge = document.getElementById('cart-badge');
+      const barTotal = document.getElementById('bar-total');
+      const modalTotal = document.getElementById('modal-total');
+      const cartBar = document.getElementById('cart-bar');
+
+      itemsContainer.innerHTML = '';
+      let total = 0;
+      let itemCount = 0;
+
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        itemsContainer.innerHTML = '<p class="text-center text-gray-500 py-4 text-sm">O seu carrinho está vazio. Adicione produtos na loja!</p>';
+        cartBar.classList.add('hidden');
+      } else {
+        cartBar.classList.remove('hidden');
+        keys.forEach(id => {
+          const item = cart[id];
+          const itemTotal = item.price * item.qty;
+          total += itemTotal;
+          itemCount += item.qty;
+
+          itemsContainer.innerHTML += `
+            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-xl border border-gray-100">
+              <div>
+                <h5 class="font-bold text-gray-800 text-sm">${item.name}</h5>
+                <p class="text-xs text-emerald-700 font-bold">${item.price.toLocaleString()} XOF x ${item.qty} = ${itemTotal.toLocaleString()} XOF</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="changeQty(${id}, -1)" class="w-7 h-7 bg-gray-200 text-gray-800 rounded-lg font-bold flex items-center justify-center hover:bg-gray-300">-</button>
+                <span class="font-bold text-sm w-4 text-center">${item.qty}</span>
+                <button onclick="changeQty(${id}, 1)" class="w-7 h-7 bg-emerald-600 text-white rounded-lg font-bold flex items-center justify-center hover:bg-emerald-700">+</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      badge.innerText = itemCount;
+      barTotal.innerText = `Total: ${total.toLocaleString()} XOF`;
+      modalTotal.innerText = `${total.toLocaleString()} XOF`;
+    }
+
+    function openCartModal() {
+      document.getElementById('cart-modal').classList.remove('hidden');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cart-modal').classList.add('hidden');
+    }
+
+    function processOrder(e) {
+      e.preventDefault();
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        alert('Por favor, adicione pelo menos um produto ao carrinho!');
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value;
+      const phone = document.getElementById('cust-phone').value;
+      const address = document.getElementById('cust-address').value;
+      const payment = document.getElementById('cust-payment').value;
+
+      let orderSummary = '';
+      let total = 0;
+
+      keys.forEach(id => {
+        const item = cart[id];
+        const sub = item.price * item.qty;
+        total += sub;
+        orderSummary += `• ${item.qty}x ${item.name} (${sub.toLocaleString()} XOF)\n`;
+      });
+
+      const msg = `🛒 *NOVO PEDIDO ONLINE - GRANJA SINTANI, SARL*\n\n` +
+                  `👤 *Cliente:* ${name}\n` +
+                  `📞 *Contacto:* ${phone}\n` +
+                  `📍 *Entrega:* ${address}\n` +
+                  `💳 *Método de Pagamento:* ${payment}\n\n` +
+                  `📦 *PRODUTOS ENCOMENDADOS:*\n${orderSummary}\n` +
+                  `💰 *TOTAL A PAGAR:* ${total.toLocaleString()} XOF\n\n` +
+                  `Olá! Fiz o meu pedido no site da Granja Sintani e gostaria de confirmar a encomenda e o pagamento.`;
+
+      const encodedMsg = encodeURIComponent(msg);
+      window.open(`https://wa.me/245955196668?text=${encodedMsg}`, '_blank');
+      
+      closeCartModal();
+      cart = {};
+      updateCartUI();
+    }
+  </script>
+
+</body>
+</html>
