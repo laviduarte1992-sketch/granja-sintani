@@ -15,7 +15,7 @@
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 antialiased pb-24">
 
-  <!-- Header / Navegação -->
+  <!-- Header / Navegação (Sem o painel público) -->
   <header class="sticky top-0 z-40 bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -30,7 +30,6 @@
       <nav class="hidden md:flex gap-6 font-semibold text-sm text-gray-700">
         <a href="#inicio" class="hover:text-emerald-700 transition">1. Início</a>
         <a href="#loja" class="hover:text-emerald-700 transition">2. Loja & Preços</a>
-        <a href="#painel-admin" class="hover:text-emerald-700 transition text-amber-700 font-bold">📊 Registo de Saídas</a>
         <a href="#pagamento" class="hover:text-emerald-700 transition">3. Pagamento</a>
         <a href="#sobre" class="hover:text-emerald-700 transition">4. Sobre Nós</a>
         <a href="#contactos" class="hover:text-emerald-700 transition">5. Contactos</a>
@@ -205,15 +204,18 @@
     </div>
   </section>
 
-  <!-- PAINEL ADMINISTRATIVO: REGISTO DE SAÍDAS E VENDAS NA WEB -->
-  <section id="painel-admin" class="py-12 px-4 max-w-7xl mx-auto bg-amber-50/60 rounded-3xl border border-amber-200 my-8 shadow-sm">
+  <!-- PAINEL ADMINISTRATIVO: ESCONDIDO POR DEFEITO (EXCLUSIVO EMPRESA) -->
+  <section id="painel-admin" class="py-12 px-4 max-w-7xl mx-auto bg-amber-50/60 rounded-3xl border border-amber-200 my-8 shadow-sm hidden">
     <div class="flex flex-col md:flex-row items-center justify-between mb-8 border-b border-amber-200 pb-4">
       <div>
-        <span class="bg-amber-400 text-emerald-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-2 inline-block">Área de Gestão Interna</span>
+        <span class="bg-amber-400 text-emerald-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-2 inline-block">Área Restrita (Empresa)</span>
         <h2 class="text-2xl font-black text-emerald-900">📊 Painel de Registo de Saídas & Vendas (Web)</h2>
         <p class="text-gray-600 text-sm">Histórico automático de todos os pedidos efetuados no site da Granja Sintani.</p>
       </div>
       <div class="mt-4 md:mt-0 flex gap-3">
+        <button onclick="hideAdminPanel()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold px-4 py-2 rounded-xl transition">
+          <i class="fas fa-eye-slash"></i> Ocultar Painel
+        </button>
         <button onclick="clearOrders()" class="bg-red-100 hover:bg-red-200 text-red-800 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1">
           <i class="fas fa-trash-alt"></i> Limpar Histórico
         </button>
@@ -480,14 +482,21 @@
     </div>
   </div>
 
-  <!-- Rodapé -->
-  <footer class="bg-emerald-950 text-emerald-400 py-8 text-center text-sm border-t border-emerald-900">
+  <!-- Rodapé (Com o Botão Secreto de Acesso Restrito para a Empresa) -->
+  <footer class="bg-emerald-950 text-emerald-400 py-8 text-center text-sm border-t border-emerald-900 px-4">
     <p>© 2026 GRANJA SINTANI, SARL - Todos os direitos reservados.</p>
     <p class="text-xs text-emerald-500 mt-1">Bissaquel, Bissau, Guiné-Bissau | sintanisarl.com</p>
     <p class="text-xs text-amber-400 font-semibold mt-2">Powered by Engenheiro Lavi Duarte Indeque</p>
+    
+    <!-- Botão Secreto de Acesso Restrito (Protegido por Palavra-Passe) -->
+    <div class="mt-4">
+      <button onclick="promptAdminAccess()" class="text-xs text-emerald-400/60 hover:text-amber-400 transition bg-emerald-900/40 px-3 py-1.5 rounded-lg border border-emerald-800">
+        🔐 Área Restrita (Apenas Empresa)
+      </button>
+    </div>
   </footer>
 
-  <!-- SCRIPT DO CARRINHO, CHECKOUT E PAINEL DE REGISTO DE SAÍDAS -->
+  <!-- SCRIPT DO CARRINHO, CHECKOUT E PAINEL PROTEGIDO -->
   <script>
     let cart = {};
     let cardQuantities = { 1: 1, 2: 1, 3: 1, 4: 1 };
@@ -575,7 +584,7 @@
       document.getElementById('cart-modal').classList.add('hidden');
     }
 
-    // Processamento do Pedido e Registo Automático no Painel Web
+    // Processamento do Pedido e Registo Automático no Painel Interno
     function processOrder(e) {
       e.preventDefault();
       const keys = Object.keys(cart);
@@ -601,7 +610,7 @@
         itemsListStr += `${item.qty}x ${item.name}; `;
       });
 
-      // 1. Guardar no Histórico Local do Painel Admin
+      // 1. Guardar no Histórico Local
       const orderRecord = {
         date: new Date().toLocaleString('pt-PT'),
         name: name,
@@ -613,7 +622,7 @@
       };
 
       let savedOrders = JSON.parse(localStorage.getItem('sintani_orders') || '[]');
-      savedOrders.unshift(orderRecord); // Adiciona ao topo
+      savedOrders.unshift(orderRecord);
       localStorage.setItem('sintani_orders', JSON.stringify(savedOrders));
       loadAdminOrders();
 
@@ -633,7 +642,23 @@
       closeCartModal();
       cart = {};
       updateCartUI();
-      alert('Pedido registado com sucesso no painel web e enviado para o WhatsApp!');
+    }
+
+    // Pedir palavra-passe para abrir o painel de administração
+    function promptAdminAccess() {
+      const password = prompt('Introduza a palavra-passe de acesso restrito da Granja Sintani:');
+      if (password === 'sintani2026') {
+        document.getElementById('painel-admin').classList.remove('hidden');
+        document.getElementById('painel-admin').scrollIntoView({ behavior: 'smooth' });
+        loadAdminOrders();
+      } else if (password !== null) {
+        alert('Palavra-passe incorreta! Acesso negado.');
+      }
+    }
+
+    function hideAdminPanel() {
+      document.getElementById('painel-admin').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // Carregar os registos no Painel Admin
@@ -694,7 +719,6 @@
       window.open(`https://wa.me/245955196668?text=${encodedMsg}`, '_blank');
     }
 
-    // Carregar os dados ao abrir a página
     window.onload = function() {
       loadAdminOrders();
     };
