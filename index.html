@@ -13,10 +13,10 @@
     }
   </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-800 antialiased">
+<body class="bg-gray-50 font-sans text-gray-800 antialiased pb-24">
 
   <!-- Header / Navegação -->
-  <header class="sticky top-0 z-50 bg-white shadow-md">
+  <header class="sticky top-0 z-40 bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <!-- Logótipo Local -->
@@ -29,16 +29,24 @@
 
       <nav class="hidden md:flex gap-6 font-semibold text-sm text-gray-700">
         <a href="#inicio" class="hover:text-emerald-700 transition">1. Início</a>
-        <a href="#produtos" class="hover:text-emerald-700 transition">2. Produtos</a>
+        <a href="#loja" class="hover:text-emerald-700 transition">2. Loja & Preços</a>
         <a href="#pagamento" class="hover:text-emerald-700 transition">3. Pagamento</a>
         <a href="#sobre" class="hover:text-emerald-700 transition">4. Sobre Nós</a>
         <a href="#contactos" class="hover:text-emerald-700 transition">5. Contactos</a>
       </nav>
 
-      <a href="https://wa.me/245955196668" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2 shadow transition">
-        <i class="fab font-bold fa-whatsapp text-lg"></i>
-        <span>Falar no WhatsApp</span>
-      </a>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleCartModal()" class="relative bg-emerald-100 text-emerald-900 font-bold px-3 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-emerald-200 transition">
+          <i class="fas fa-shopping-cart text-lg"></i>
+          <span class="hidden sm:inline">Carrinho</span>
+          <span id="cart-badge" class="bg-amber-500 text-emerald-950 text-xs px-2 py-0.5 rounded-full font-black">0</span>
+        </button>
+
+        <a href="https://wa.me/245955196668" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2 shadow transition">
+          <i class="fab font-bold fa-whatsapp text-lg"></i>
+          <span class="hidden sm:inline">WhatsApp</span>
+        </a>
+      </div>
     </div>
   </header>
 
@@ -50,7 +58,9 @@
         <h2 class="text-4xl md:text-5xl font-black mb-4 leading-tight">Qualidade, Frescura e Confiança para a sua Mesa</h2>
         <p class="text-emerald-100 text-lg mb-8">Fornecemos frangos de corte, pintos do dia e ovos de alta qualidade diretamente das nossas instalações em Bissaquel para retalhistas, restaurantes e famílias.</p>
         <div class="flex flex-wrap gap-4">
-          <a href="#produtos" class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold px-6 py-3 rounded-xl shadow-lg transition">Ver Tabela de Preços</a>
+          <a href="#loja" class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold px-6 py-3 rounded-xl shadow-lg transition flex items-center gap-2">
+            <i class="fas fa-shopping-bag"></i> Fazer Encomenda Online
+          </a>
           <a href="https://wa.me/245955196668" target="_blank" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-xl border border-white/30 transition flex items-center gap-2">
             <i class="fab fa-whatsapp"></i> +245 955 196 668
           </a>
@@ -65,56 +75,75 @@
     </div>
   </section>
 
-  <!-- 2. PRODUTOS -->
-  <section id="produtos" class="py-16 px-4 max-w-7xl mx-auto">
+  <!-- 2. LOJA DE PRODUTOS E CHECKOUT -->
+  <section id="loja" class="py-16 px-4 max-w-7xl mx-auto">
     <div class="text-center mb-12">
-      <h2 class="text-3xl font-black text-emerald-900">2. Produtos e Preços por Encomenda</h2>
-      <p class="text-gray-600">Valores atualizados em Franco CFA (XOF) com fornecimento para retalho e grossistas em Bissau.</p>
+      <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-2 inline-block">Encomenda Fácil Online</span>
+      <h2 class="text-3xl font-black text-emerald-900">2. Loja Online & Encomenda Direta</h2>
+      <p class="text-gray-600">Adicione os produtos ao carrinho e escolha a forma de pagamento conveniente para a Guiné-Bissau.</p>
     </div>
 
     <div class="grid md:grid-cols-3 gap-8">
       <!-- Produto 1: Frango -->
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
-        <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80" alt="Frango de Corte Vivo" class="h-48 w-full object-cover">
-        <div class="p-6">
-          <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Em Stock</span>
-          <h3 class="text-xl font-bold text-gray-900 mt-2">Frango de Corte (Vivo)</h3>
-          <p class="text-gray-500 text-sm mt-1">Aves saudáveis, criadas com ração de qualidade e acompanhamento veterinário constante.</p>
-          <div class="mt-4 flex justify-between items-baseline">
-            <span class="text-2xl font-black text-emerald-900">2.500 XOF</span>
-            <span class="text-xs text-gray-500">por Unidade</span>
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
+        <div>
+          <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80" alt="Frango de Corte Vivo" class="h-48 w-full object-cover">
+          <div class="p-6">
+            <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Em Stock</span>
+            <h3 class="text-xl font-bold text-gray-900 mt-2">Frango de Corte (Vivo)</h3>
+            <p class="text-gray-500 text-sm mt-1">Aves saudáveis, criadas com ração de qualidade e acompanhamento veterinário constante.</p>
+            <div class="mt-4 flex justify-between items-baseline">
+              <span class="text-2xl font-black text-emerald-900">2.500 XOF</span>
+              <span class="text-xs text-gray-500">por Unidade</span>
+            </div>
           </div>
-          <a href="https://wa.me/245955196668?text=Olá,%20gostaria%20de%20encomendar%20Frangos%20de%20Corte.%20Qual%20é%20o%20método%20de%20pagamento?" target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl block text-center transition">Encomendar via WhatsApp</a>
+        </div>
+        <div class="p-6 pt-0">
+          <button onclick="addToCart(1, 'Frango de Corte (Vivo)', 2500)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition shadow">
+            <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
+          </button>
         </div>
       </div>
 
       <!-- Produto 2: Ovos -->
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
-        <img src="https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=600&q=80" alt="Caixa de Ovos Frescos" class="h-48 w-full object-cover">
-        <div class="p-6">
-          <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Em Stock</span>
-          <h3 class="text-xl font-bold text-gray-900 mt-2">Caixa de Ovos Frescos</h3>
-          <p class="text-gray-500 text-sm mt-1">Alvéolo com 30 ovos frescos de galinhas poedeiras criadas com excelente nutrição.</p>
-          <div class="mt-4 flex justify-between items-baseline">
-            <span class="text-2xl font-black text-emerald-900">2.800 XOF</span>
-            <span class="text-xs text-gray-500">Alvéolo (30 un)</span>
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
+        <div>
+          <img src="https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=600&q=80" alt="Caixa de Ovos Frescos" class="h-48 w-full object-cover">
+          <div class="p-6">
+            <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Em Stock</span>
+            <h3 class="text-xl font-bold text-gray-900 mt-2">Caixa de Ovos Frescos</h3>
+            <p class="text-gray-500 text-sm mt-1">Alvéolo com 30 ovos frescos de galinhas poedeiras criadas com excelente nutrição.</p>
+            <div class="mt-4 flex justify-between items-baseline">
+              <span class="text-2xl font-black text-emerald-900">2.800 XOF</span>
+              <span class="text-xs text-gray-500">Alvéolo (30 un)</span>
+            </div>
           </div>
-          <a href="https://wa.me/245955196668?text=Olá,%20gostaria%20de%20encomendar%20Caixas%20de%20Ovos.%20Qual%20é%20o%20método%20de%20pagamento?" target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl block text-center transition">Encomendar via WhatsApp</a>
+        </div>
+        <div class="p-6 pt-0">
+          <button onclick="addToCart(2, 'Caixa de Ovos Frescos (30 un)', 2800)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition shadow">
+            <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
+          </button>
         </div>
       </div>
 
       <!-- Produto 3: Pintos -->
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
-        <img src="https://images.unsplash.com/photo-1589923188651-268a9765e432?auto=format&fit=crop&w=600&q=80" alt="Pintos de 1 Dia" class="h-48 w-full object-cover">
-        <div class="p-6">
-          <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-1 rounded">Por Encomenda</span>
-          <h3 class="text-xl font-bold text-gray-900 mt-2">Pintos de 1 Dia (Lote)</h3>
-          <p class="text-gray-500 text-sm mt-1">Pintos vacinados e com alta taxa de sobrevivência para produtores avícolas.</p>
-          <div class="mt-4 flex justify-between items-baseline">
-            <span class="text-2xl font-black text-emerald-900">35.000 XOF</span>
-            <span class="text-xs text-gray-500">Lote de 50 pintos</span>
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition flex flex-col justify-between">
+        <div>
+          <img src="https://images.unsplash.com/photo-1589923188651-268a9765e432?auto=format&fit=crop&w=600&q=80" alt="Pintos de 1 Dia" class="h-48 w-full object-cover">
+          <div class="p-6">
+            <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-1 rounded">Por Encomenda</span>
+            <h3 class="text-xl font-bold text-gray-900 mt-2">Pintos de 1 Dia (Lote)</h3>
+            <p class="text-gray-500 text-sm mt-1">Pintos vacinados e com alta taxa de sobrevivência para produtores avícolas.</p>
+            <div class="mt-4 flex justify-between items-baseline">
+              <span class="text-2xl font-black text-emerald-900">35.000 XOF</span>
+              <span class="text-xs text-gray-500">Lote de 50 pintos</span>
+            </div>
           </div>
-          <a href="https://wa.me/245955196668?text=Olá,%20gostaria%20de%20encomendar%20Pintos%20de%201%20Dia.%20Qual%20é%20o%20método%20de%20pagamento?" target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl block text-center transition">Encomendar via WhatsApp</a>
+        </div>
+        <div class="p-6 pt-0">
+          <button onclick="addToCart(3, 'Pintos de 1 Dia (Lote 50 un)', 35000)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition shadow">
+            <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
+          </button>
         </div>
       </div>
     </div>
@@ -124,9 +153,9 @@
   <section id="pagamento" class="bg-white py-16 px-4 border-t border-b border-gray-100">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-12">
-        <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-2 inline-block">Pagamento Simples e Seguro</span>
-        <h2 class="text-3xl font-black text-emerald-900">3. Métodos de Pagamento Aceites</h2>
-        <p class="text-gray-600">Escolha a opção mais conveniente para si e envie a fotografia ou captura de ecrã do comprovativo via WhatsApp para confirmação rápida.</p>
+        <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-2 inline-block">Instruções de Pagamento</span>
+        <h2 class="text-3xl font-black text-emerald-900">3. Opções de Pagamento em Bissau</h2>
+        <p class="text-gray-600">Poderá escolher qualquer uma destas opções durante a finalização do pedido na loja online.</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
@@ -136,7 +165,7 @@
             <i class="fas fa-mobile-alt"></i>
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-2">Pagamento Móvel / Mobile Money</h3>
-          <p class="text-gray-600 text-sm mb-4">Faça a transferência rápida e direta via telemóvel através dos operadores locais (Orange Money / Telecel Money).</p>
+          <p class="text-gray-600 text-sm mb-4">Faça a transferência rápida via telemóvel (Orange Money / Telecel Money).</p>
           <div class="bg-white p-3 rounded-lg border border-gray-200 text-xs font-mono text-gray-700 space-y-1">
             <p><strong>Número da Granja:</strong> +245 955 196 668</p>
             <p class="text-emerald-700 font-sans font-semibold mt-1">💡 Envie a captura de ecrã (screenshot) da transação para o WhatsApp.</p>
@@ -149,7 +178,7 @@
             <i class="fas fa-university"></i>
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-2">Transferência Bancária / NIB</h3>
-          <p class="text-gray-600 text-sm mb-4">Ideal para pagamentos antecipados, compras em grande quantidade e clientes empresariais.</p>
+          <p class="text-gray-600 text-sm mb-4">Ideal para pagamentos antecipados e compras em grande quantidade.</p>
           <div class="bg-white p-3 rounded-lg border border-gray-200 text-xs font-mono text-gray-700 space-y-1">
             <p><strong>Titular:</strong> GRANJA SINTANI, SARL</p>
             <p><strong>NIB / IBAN:</strong> Solicitado no WhatsApp</p>
@@ -163,28 +192,12 @@
             <i class="fas fa-hand-holding-usd"></i>
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-2">Pagamento no Ato da Entrega</h3>
-          <p class="text-gray-600 text-sm mb-4">Pague em dinheiro vivo (Cash on Delivery) diretamente no momento do levantamento ou entrega em Bissaquel e Bissau.</p>
+          <p class="text-gray-600 text-sm mb-4">Pague em dinheiro vivo (Cash on Delivery) no momento da entrega em Bissaquel e Bissau.</p>
           <div class="bg-white p-3 rounded-lg border border-gray-200 text-xs text-gray-700 space-y-1">
             <p><strong>Moeda:</strong> Franco CFA (XOF)</p>
-            <p class="text-emerald-700 font-semibold mt-1">💡 Disponível para entregas locais e levantamento nas nossas instalações.</p>
+            <p class="text-emerald-700 font-semibold mt-1">💡 Disponível para entregas locais e levantamento presencial.</p>
           </div>
         </div>
-      </div>
-
-      <!-- Caixa de Confirmação WhatsApp com Explicação Clara -->
-      <div class="mt-10 bg-emerald-900 text-white p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-        <div class="flex items-center gap-4">
-          <div class="bg-emerald-800 p-4 rounded-xl text-amber-400 text-3xl shrink-0">
-            <i class="fab fa-whatsapp"></i>
-          </div>
-          <div>
-            <h4 class="text-lg font-bold">Confirmação Rápida de Pagamento</h4>
-            <p class="text-emerald-100 text-sm">Após efetuar o pagamento pela sua aplicação de telemóvel ou banco, tire uma <strong>captura de ecrã (screenshot)</strong> ou uma <strong>fotografia do talão/recibo</strong> e envie para o nosso WhatsApp oficial (+245 955 196 668) para confirmarmos a encomenda imediatamente.</p>
-          </div>
-        </div>
-        <a href="https://wa.me/245955196668?text=Olá!%20Gostaria%20de%20enviar%20uma%20captura%20de%20ecrã/fotografia%20do%20meu%20comprovativo%20de%20pagamento." target="_blank" class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-black px-6 py-3 rounded-xl whitespace-nowrap shadow transition shrink-0">
-          Enviar Comprovativo
-        </a>
       </div>
     </div>
   </section>
@@ -216,8 +229,8 @@
   <!-- 5. CONTACTOS -->
   <section id="contactos" class="py-16 px-4 max-w-7xl mx-auto">
     <div class="text-center mb-12">
-      <h2 class="text-3xl font-black text-emerald-900">5. Contactos e Encomendas</h2>
-      <p class="text-gray-600">Entre em contacto direto connosco para pedidos, orçamentos ou parcerias comerciais.</p>
+      <h2 class="text-3xl font-black text-emerald-900">5. Contactos e Informações</h2>
+      <p class="text-gray-600">Entre em contacto direto connosco para orçamentos especiais ou parcerias comerciais.</p>
     </div>
 
     <div class="grid md:grid-cols-2 gap-12">
@@ -242,33 +255,8 @@
         </a>
       </div>
 
-      <form class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 space-y-4">
+      <form class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 space-y-4" onsubmit="event.preventDefault(); alert('Mensagem enviada com sucesso!');">
         <h3 class="text-xl font-bold text-gray-900 mb-2">Formulário de Mensagem</h3>
         <div>
           <label class="block text-sm font-semibold text-gray-700 mb-1">Nome Completo</label>
-          <input type="text" placeholder="Ex: João Silva" class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none">
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">Telefone / WhatsApp</label>
-          <input type="tel" placeholder="Ex: +245 955..." class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none">
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">Mensagem ou Quantidade</label>
-          <textarea rows="4" placeholder="Escreva aqui a quantidade que pretende encomendar..." class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none"></textarea>
-        </div>
-        <button type="button" onclick="alert('Obrigado pelo contacto!')" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 rounded-xl transition">
-          Enviar Pedido
-        </button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Rodapé -->
-  <footer class="bg-emerald-950 text-emerald-400 py-8 text-center text-sm border-t border-emerald-900">
-    <p>© 2026 GRANJA SINTANI, SARL - Todos os direitos reservados.</p>
-    <p class="text-xs text-emerald-500 mt-1">Bissaquel, Bissau, Guiné-Bissau | sintanisarl.com</p>
-    <p class="text-xs text-amber-400 font-semibold mt-2">Powered by Engenheiro Lavi Duarte Indeque</p>
-  </footer>
-
-</body>
-</html>
+          <input type="text" required placeholder="Ex: João Silva" class="w-full px-4 py
