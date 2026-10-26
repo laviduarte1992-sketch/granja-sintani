@@ -378,7 +378,7 @@
         cart[id].qty += 1;
       }
       updateCartUI();
-      openCartModal(); // Abre a janela do carrinho imediatamente ao adicionar!
+      openCartModal();
     }
 
     function changeQty(id, delta) {
@@ -463,19 +463,19 @@
         const item = cart[id];
         const sub = item.price * item.qty;
         total += sub;
-        orderSummary += `• ${item.qty}x ${item.name} (${sub.toLocaleString()} XOF)\n`;
+        orderSummary += `* ${item.qty}x ${item.name} (${sub.toLocaleString()} XOF)\n`;
       });
 
-      const msg = `🛒 *NOVO PEDIDO ONLINE - GRANJA SINTANI, SARL*\n\n` +
-                  `👤 *Cliente:* ${name}\n` +
-                  `📞 *Contacto:* ${phone}\n` +
-                  `📍 *Entrega:* ${address}\n` +
-                  `💳 *Método de Pagamento:* ${payment}\n\n` +
-                  `📦 *PRODUTOS ENCOMENDADOS:*\n${orderSummary}\n` +
-                  `💰 *TOTAL A PAGAR:* ${total.toLocaleString()} XOF\n\n` +
-                  `Olá! Fiz o meu pedido no site da Granja Sintani e gostaria de confirmar a encomenda e o pagamento.`;
+      const textMessage = `NOVO PEDIDO ONLINE - GRANJA SINTANI, SARL\n\n` +
+                          `Cliente: ${name}\n` +
+                          `Contacto: ${phone}\n` +
+                          `Entrega: ${address}\n` +
+                          `Metodo de Pagamento: ${payment}\n\n` +
+                          `PRODUTOS ENCOMENDADOS:\n${orderSummary}\n` +
+                          `TOTAL A PAGAR: ${total.toLocaleString()} XOF\n\n` +
+                          `Olá! Fiz o meu pedido no site da Granja Sintani e gostaria de confirmar a encomenda e o pagamento.`;
 
-      const encodedMsg = encodeURIComponent(msg);
+      const encodedMsg = encodeURIComponent(textMessage);
       window.open(`https://wa.me/245955196668?text=${encodedMsg}`, '_blank');
       
       closeCartModal();
