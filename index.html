@@ -534,7 +534,19 @@
     function cardQtyChange(id, delta) {
       if (!cardQuantities[id]) cardQuantities[id] = 1;
       cardQuantities[id] = Math.max(1, cardQuantities[id] + delta);
-      document.getElementById(`card-qty-${id}`).innerText = cardQuantities[id]; }  function addToCart(id, name, price) { const qtyToAdd = cardQuantities[id] \vert{}\vert{} 1; if (!cart[id]) { cart[id] = { name: name, price: price, qty: qtyToAdd }; } else { cart[id].qty += qtyToAdd; }  cardQuantities[id] = 1; document.getElementById(`card-qty-${id}`).innerText = 1;
+      document.getElementById(`card-qty-${id}`).innerText = cardQuantities[id];
+    }
+
+    function addToCart(id, name, price) {
+      const qtyToAdd = cardQuantities[id] || 1;
+      if (!cart[id]) {
+        cart[id] = { name: name, price: price, qty: qtyToAdd };
+      } else {
+        cart[id].qty += qtyToAdd;
+      }
+      
+      cardQuantities[id] = 1;
+      document.getElementById(`card-qty-${id}`).innerText = 1;
 
       updateCartUI();
       openCartModal();
@@ -577,7 +589,7 @@
             <div class="flex items-center justify-between bg-gray-50 p-3 rounded-xl border border-gray-100">
               <div>
                 <h5 class="font-bold text-gray-800 text-sm">${item.name}</h5>
-                <p class="text-xs text-emerald-700 font-bold">${item.price.toLocaleString()} XOF x ${item.qty} =${itemTotal.toLocaleString()} XOF</p>
+                <p class="text-xs text-emerald-700 font-bold">${item.price.toLocaleString()} XOF x ${item.qty} = ${itemTotal.toLocaleString()} XOF</p>
               </div>
               <div class="flex items-center gap-2">
                 <button onclick="changeQty(${id}, -1)" class="w-7 h-7 bg-gray-200 text-gray-800 rounded-lg font-bold flex items-center justify-center hover:bg-gray-300">-</button>
@@ -590,4 +602,157 @@
       }
 
       badge.innerText = itemCount;
-      barTotal.innerText = `Total: ${total.toLocaleString()} XOF
+      barTotal.innerText = `Total: ${total.toLocaleString()} XOF`;
+      modalTotal.innerText = `${total.toLocaleString()} XOF`;
+    }
+
+    function openCartModal() {
+      document.getElementById('cart-modal').classList.remove('hidden');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cart-modal').classList.add('hidden');
+    }
+
+    // Processamento do Pedido e Registo Automático no Painel Interno
+    function processOrder(e) {
+      e.preventDefault();
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        alert('Por favor, adicione pelo menos um produto ao carrinho!');
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value;
+      const phone = document.getElementById('cust-phone').value;
+      const address = document.getElementById('cust-address').value;
+      const payment = document.getElementById('cust-payment').value;
+
+      let orderSummary = '';
+      let total = 0;
+      let itemsListStr = '';
+
+      keys.forEach(id => {
+        const item = cart[id];
+        const sub = item.price * item.qty;
+        total += sub;
+        orderSummary += `* ${item.qty}x ${item.name} (${sub.toLocaleString()} XOF)\n`;
+        itemsListStr += `${item.qty}x ${item.name}; `;
+      });
+
+      // Guardar no Histórico Local
+      const orderRecord = {
+        date: new Date().toLocaleString('pt-PT'),
+        name: name,
+        phone: phone,
+        address: address,
+        items: itemsListStr,
+        payment: payment,
+        total: total
+      };
+
+      let savedOrders = JSON.parse(localStorage.getItem('sintani_orders') || '[]');
+      savedOrders.unshift(orderRecord);
+      localStorage.setItem('sintani_orders', JSON.stringify(savedOrders));
+      loadAdminOrders();
+
+      // Enviar para o WhatsApp
+      const textMessage = `NOVO PEDIDO ONLINE - GRANJA SINTANI, SARL\n\n` +
+                          `Cliente: ${name}\n` +
+                          `Contacto: ${phone}\n` +
+                          `Entrega: ${address}\n` +
+                          `Metodo de Pagamento: ${payment}\n\n` +
+                          `PRODUTOS ENCOMENDADOS:\n${orderSummary}\n` +
+                          `TOTAL A PAGAR: ${total.toLocaleString()} XOF\n\n` +
+                          `Olá! Fiz o meu pedido no site da Granja Sintani e gostaria de confirmar a encomenda e o pagamento.`;
+
+      const encodedMsg = encodeURIComponent(textMessage);
+      window.open(`https://wa.me/245955196668?text=${encodedMsg}`, '_blank');
+      
+      closeCartModal();
+      cart = {};
+      updateCartUI();
+    }
+
+    // Pedir palavra-passe para abrir o painel de administração
+    function promptAdminAccess() {
+      const password = prompt('Introduza a palavra-passe de acesso restrito da Granja Sintani:');
+      if (password === 'sintani2026') {
+        document.getElementById('painel-admin').classList.remove('hidden');
+        document.getElementById('painel-admin').scrollIntoView({ behavior: 'smooth' });
+        loadAdminOrders();
+      } else if (password !== null) {
+        alert('Palavra-passe incorreta! Acesso negado.');
+      }
+    }
+
+    function hideAdminPanel() {
+      document.getElementById('painel-admin').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Carregar os registos no Painel Admin
+    function loadAdminOrders() {
+      const ordersList = document.getElementById('admin-orders-list');
+      const totalOrdersEl = document.getElementById('admin-total-orders');
+      const totalRevenueEl = document.getElementById('admin-total-revenue');
+      
+      let savedOrders = JSON.parse(localStorage.getItem('sintani_orders') || '[]');
+      ordersList.innerHTML = '';
+
+      let totalRevenue = 0;
+
+      if (savedOrders.length === 0) {
+        ordersList.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500">Ainda não existem registos de saídas no site.</td></tr>`;
+      } else {
+        savedOrders.forEach(ord => {
+          totalRevenue += ord.total;
+          ordersList.innerHTML += `
+            <tr class="hover:bg-amber-50/50 transition">
+              <td class="p-3 text-xs text-gray-600 font-mono">${ord.date}</td>
+              <td class="p-3 font-bold text-gray-900">${ord.name}</td>
+              <td class="p-3 text-gray-700">${ord.phone}</td>
+              <td class="p-3 text-gray-600 text-xs">${ord.address}</td>
+              <td class="p-3 text-emerald-900 font-medium text-xs">${ord.items}</td>
+              <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs font-bold">${ord.payment}</span></td>
+              <td class="p-3 text-right font-black text-emerald-950">${ord.total.toLocaleString()} XOF</td>
+            </tr>
+          `;
+        });
+      }
+
+      totalOrdersEl.innerText = savedOrders.length;
+      totalRevenueEl.innerText = `${totalRevenue.toLocaleString()} XOF`;
+    }
+
+    function clearOrders() {
+      if (confirm('Tem a certeza que deseja limpar todo o histórico de registos de saídas?')) {
+        localStorage.removeItem('sintani_orders');
+        loadAdminOrders();
+      }
+    }
+
+    // Enviar mensagem de contacto para o WhatsApp
+    function sendContactForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value;
+      const phone = document.getElementById('contact-phone').value;
+      const msg = document.getElementById('contact-msg').value;
+
+      const textMessage = `NOVA MENSAGEM DO SITE - GRANJA SINTANI, SARL\n\n` +
+                          `👤 Nome: ${name}\n` +
+                          `📞 Contacto: ${phone}\n` +
+                          `💬 Mensagem: ${msg}\n\n` +
+                          `Olá! Gostaria de obter mais informações através do site.`;
+
+      const encodedMsg = encodeURIComponent(textMessage);
+      window.open(`https://wa.me/245955196668?text=${encodedMsg}`, '_blank');
+    }
+
+    window.onload = function() {
+      loadAdminOrders();
+    };
+  </script>
+
+</body>
+</html>
